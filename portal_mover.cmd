@@ -17,9 +17,11 @@
 :: /activeonly:  Select only Active records
 
 :: /targetenv:	Full URL of the environment to which records are imported.  Ex. https://contoso.crm.dynamics.com
+:: /targetauth: Authentication model to use.  Office365 or ClientSecret (for now)
 :: /importfile:	Filename from which records will be read for import. Can use a mask for date/time: portal export {0:yyyy-MM-dd}.xml
 
 :: /sourceenv:	Full URL of the environment from which records are retreieved. Ex. Ex. https://microsoft.crm.dynamics.com
+:: /sourceauth: Authentication model to use.  Office365 or ClientSecret (for now)
 :: /exportfile:	Filename to which records will be saved post export. Can use a mask for date/time: portal export {0:yyyy-MM-dd}.xml
 
 :: /sourceuser:**  Username for the Source environment
