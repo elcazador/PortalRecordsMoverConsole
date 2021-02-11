@@ -25,10 +25,20 @@ namespace PortalRecordsMover.AppCode
         public MoverSettingsConfig Config { get => config; set => config = value; }
 
         public string SourceConnectionString {
-            get { return $"RequireNewInstance=True;AuthType=Office365;Username={config.SourceUsername}; Password={config.SourcePassword};Url={config.SourceEnvironment}"; }
+            get {
+                if (config.SourceAuth == AuthOptionsEnum.ClientSecret)
+                    return $"RequireNewInstance=True;AuthType=ClientSecret;ClientId={config.SourceUsername}; ClientSecret={config.SourcePassword}; Url={config.SourceEnvironment}";
+
+                return $"RequireNewInstance=True;AuthType=Office365;Username={config.SourceUsername}; Password=XXXX;Url={config.SourceEnvironment}";
+            }
         }
         public string TargetConnectionString {
-            get { return $"RequireNewInstance=True;AuthType=Office365;Username={config.TargetUsername}; Password={config.TargetPassword};Url={config.TargetEnvironment}"; }
+            get {
+                if (config.TargetAuth == AuthOptionsEnum.ClientSecret)
+                    return $"RequireNewInstance=True;AuthType=ClientSecret;ClientId={config.TargetUsername}; ClientSecret={config.TargetPassword}; Url={config.TargetEnvironment}";
+
+                return $"RequireNewInstance=True;AuthType=Office365;Username={config.TargetUsername}; Password=XXXX;Url={config.TargetEnvironment}";
+            }
         }
         /// <summary>
         /// List of EntityMetadata objects for items being processed
@@ -71,9 +81,11 @@ namespace PortalRecordsMover.AppCode
                 .AppendLine($"TargetUsername: {config.TargetUsername}")
                 // .AppendLine($"TargetPassword: {config.TargetPassword}")
                 .AppendLine($"SourceEnvironment: {config.SourceEnvironment}")
-                .AppendLine($"SourceConnectionString: {SourceConnectionString}")
+                .AppendLine($"SourceAuth: {config.SourceAuth}")
+                //.AppendLine($"SourceConnectionString: {SourceConnectionString}")
                 .AppendLine($"TargetEnvironment: {config.TargetEnvironment}")
-                .AppendLine($"TargetConnectionString: {TargetConnectionString}")
+                .AppendLine($"TargetAuth: {config.TargetAuth}")
+                //.AppendLine($"TargetConnectionString: {TargetConnectionString}")
                 .AppendLine($"SelectedEntities:\n{string.Join(", ", config.SelectedEntities.ToArray())}");
 
             return sb.ToString();
@@ -177,6 +189,13 @@ namespace PortalRecordsMover.AppCode
                     case "sourcepass":
                         settings.Config.SourcePassword = arg.Value;
                         break;
+                    case "sourceauth":
+                        settings.Config.SourceAuth = AuthOptionsEnum.Office365;
+                        if (Enum.TryParse<AuthOptionsEnum>(arg.Value, out AuthOptionsEnum sa))
+                        {
+                            settings.Config.SourceAuth = sa;
+                        }
+                        break;
 
                     // TARGET
                     case "targetenv":
@@ -187,6 +206,13 @@ namespace PortalRecordsMover.AppCode
                         break;
                     case "targetpass":
                         settings.Config.TargetPassword = arg.Value;
+                        break;
+                    case "targetauth":
+                        settings.Config.TargetAuth = AuthOptionsEnum.Office365;
+                        if (Enum.TryParse<AuthOptionsEnum>(arg.Value, out AuthOptionsEnum ta))
+                        {
+                            settings.Config.SourceAuth = ta;
+                        }
                         break;
 
                     case "datefilteroptions":

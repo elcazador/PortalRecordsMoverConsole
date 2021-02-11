@@ -20,10 +20,19 @@
   "SourceEnvironment": "https://sourcetenant.crm.dynamics.com",
   "SourceUsername": "admin@sourcetenant.onmicrosoft.com",
   "SourcePassword": "password",
+  /*
+    Enum values, one of Office3565=1, ClientSecret=2
+  */
+  "SourceAuth": "Office365",
 
   "TargetEnvironment": "https://targettenant.crm.dynamics.com",
   "TargetUsername": "admin@targettenant.onmicrosoft.com",
   "TargetPassword": "password",
+  /*
+    Enum values, one of Office3565=1, ClientSecret=2
+  */
+  "TargetAuth": "Office365",
+
   "WebsiteIdMapping": [
     {
       "SourceId": "source website id",

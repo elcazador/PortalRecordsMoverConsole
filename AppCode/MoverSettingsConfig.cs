@@ -19,6 +19,14 @@ namespace PortalRecordsMover.AppCode
         ModifyOnly,
         CreateAndModify
     }
+
+    public enum AuthOptionsEnum
+    {
+        Office365 = 1,
+        ClientSecret = 2
+        //TODO: include cert auth at some ponit
+
+    }
     /// <summary>
     /// Config settings for the export/import
     /// </summary>
@@ -64,11 +72,19 @@ namespace PortalRecordsMover.AppCode
         [JsonProperty("SourcePassword", Required = Required.Default)]
         public string SourcePassword { get; set; }
 
+        [JsonProperty("SourceAuth", Required = Required.Default)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public AuthOptionsEnum SourceAuth { get; set; }
+
         [JsonProperty("TargetUsername", Required = Required.Default)]
         public string TargetUsername { get; set; }
 
         [JsonProperty("TargetPassword", Required = Required.Default)]
         public string TargetPassword { get; set; }
+
+        [JsonProperty("TargetAuth", Required = Required.Default)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public AuthOptionsEnum TargetAuth { get; set; }
 
         [JsonProperty("SelectedEntities", Required = Required.Default)]
         public List<string> SelectedEntities { get; set; }
@@ -134,6 +150,11 @@ namespace PortalRecordsMover.AppCode
 
             if (Enum.TryParse<DateFilterOptionsEnum>(value, out DateFilterOptionsEnum df)) {
                 return df;
+            }
+
+            if (Enum.TryParse<AuthOptionsEnum>(value, out AuthOptionsEnum ao))
+            {
+                return ao;
             }
             throw new Exception("Cannot unmarshal type long");
         }
