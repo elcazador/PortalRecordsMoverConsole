@@ -29,7 +29,7 @@ namespace PortalRecordsMover.AppCode
                 if (config.SourceAuth == AuthOptionsEnum.ClientSecret)
                     return $"RequireNewInstance=True;AuthType=ClientSecret;ClientId={config.SourceUsername}; ClientSecret={config.SourcePassword}; Url={config.SourceEnvironment}";
 
-                return $"RequireNewInstance=True;AuthType=Office365;Username={config.SourceUsername}; Password=XXXX;Url={config.SourceEnvironment}";
+                return $"RequireNewInstance=True;AuthType=Office365;Username={config.SourceUsername}; Password={config.SourcePassword};Url={config.SourceEnvironment}";
             }
         }
         public string TargetConnectionString {
@@ -37,7 +37,7 @@ namespace PortalRecordsMover.AppCode
                 if (config.TargetAuth == AuthOptionsEnum.ClientSecret)
                     return $"RequireNewInstance=True;AuthType=ClientSecret;ClientId={config.TargetUsername}; ClientSecret={config.TargetPassword}; Url={config.TargetEnvironment}";
 
-                return $"RequireNewInstance=True;AuthType=Office365;Username={config.TargetUsername}; Password=XXXX;Url={config.TargetEnvironment}";
+                return $"RequireNewInstance=True;AuthType=Office365;Username={config.TargetUsername}; Password={config.TargetPassword};Url={config.TargetEnvironment}";
             }
         }
         /// <summary>
